@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/smultronbusken/alexander-bard-for-discord#readme",
   "dependencies": {
-    "base-app-for-discordjs": "^0.1.9",
     "@types/node": "^16.7.10",
+    "base-app-for-discordjs": "^0.1.9",
     "discord-api-types": "^0.22.0",
-    "discord.js": "^13.1.0"
+    "discord.js": "^13.1.0",
+    "stormdb": "^0.5.2"
   }
 }

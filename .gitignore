@@ -3,6 +3,7 @@ built
 
 config.json
 todo.md
+src/data/*.storage.json
 
 # Logs
 logs
