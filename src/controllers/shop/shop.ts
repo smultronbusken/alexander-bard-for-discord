@@ -68,8 +68,7 @@ export class ShopManager {
         .setThumbnail(shop.shop.thumbnail)
         .setImage(shop.shop.image)
         .setDescription(
-          shop.shop.description +
-            `\n Behöver du mer <:bardbuck:833349173981478942> så bör du be till med genom att skriva *pray* eller ansöka till Bards College genom att skriva *börja bardscollege*.`
+          shop.shop.description
         );
       return exampleEmbed
     }
