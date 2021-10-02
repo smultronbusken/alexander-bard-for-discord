@@ -23,8 +23,7 @@ export default new SubCommand<BardApp>({
             if (item) {
                 exampleEmbed.addField(
                     `${item.name}`,
-                    `${item.info}\n
-                Skriv *använd ${item.item.id}*`,
+                    `${item.info}\n`,
                     true)
             }
         })
