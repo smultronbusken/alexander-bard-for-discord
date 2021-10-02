@@ -18,6 +18,7 @@ export default class Ledger {
     }
       
     public subtractFunds(amount: number, userID: Snowflake) : boolean {
+        amount = -amount;
         let ledger = this.db.get("ledger").get(userID);
         let currentAmount: number = ledger.value()
         if (currentAmount) {

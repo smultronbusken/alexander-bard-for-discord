@@ -1,17 +1,14 @@
 import Skeleton from "base-app-for-discordjs/src/Skeleton"
 import { Intents } from "discord.js";
 import Ledger from "./controllers/ledger";
+import { Shop, ShopManager } from "./controllers/shop/shop";
 
 
 
 export class BardApp {
   public skeleton: Skeleton<BardApp>
   public ledger: Ledger
-
-  public setUpControllers() {
-    this.ledger = new Ledger(this.skeleton.getStorage("ledger"))
-  }
-
+  public shopManager: ShopManager
 
 }
 
@@ -26,9 +23,22 @@ import("../config.json").then(config => {
         intents,
         config["DEV_GUILD_ID"]
       );
+
+
+
       skeleton.client.login(config["APP_TOKEN"]);
       skeleton.on("ready", () => {
         bardApp.skeleton = skeleton
-        bardApp.setUpControllers()
+
+
+        let shopManager = new ShopManager()
+        skeleton.jobRegister.onRegister(Shop, job => shopManager.shops.set(job.shop.id, job))
+        skeleton.jobRegister.loadAndRegister(true, false).then(_ => {
+          console.log(shopManager.shops)
+        })
+
+        bardApp.ledger = new Ledger(skeleton.getStorage("ledger"))
+        bardApp.shopManager = shopManager
+
       })
 })
