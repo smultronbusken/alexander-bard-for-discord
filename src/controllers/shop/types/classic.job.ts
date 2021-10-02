@@ -5,7 +5,7 @@ export default new Shop({
   name: "Bards klassiska affär",
   id: "classic",
   title:
-    ":money_mouth: :convenience_store: Bards Shop :convenience_store: :money_mouth:",
+    ":money_mouth: :convenience_store: Bards Klassiska Affär :convenience_store: :money_mouth:",
   url:
     "https://www.talarpoolen.se/wp-content/uploads/alexander-bard-forelasning.jpg",
   thumbnail:

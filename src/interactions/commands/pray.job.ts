@@ -6,12 +6,15 @@ export default new SlashCommand<BardApp>({
     info: "be till bard",
     execute(interaction, app) {
         app.ledger.addFunds(10, interaction.user.id)
+        let subscription = app.voice.getSubscription(interaction.guildId)
         
-        const guild = app.skeleton.client.guilds.cache.get(interaction.guildId)
-        const member = guild.members.cache.get(interaction.member.user.id);
-        const voiceChannel = member.voice.channel;
-        if (voiceChannel) {
-            app.voice.playInGuild("./media/pray.mp3", interaction.guildId, voiceChannel)
+        if (!subscription) {
+          const guild = app.skeleton.client.guilds.cache.get(interaction.guildId)
+          const member = guild.members.cache.get(interaction.member.user.id);
+          const voiceChannel = member.voice.channel;
+          if (voiceChannel) {
+              app.voice.playInGuild("./media/pray.mp3", interaction.guildId, voiceChannel)
+          }
         }
         
         let funds = app.ledger.funds(interaction.user.id)

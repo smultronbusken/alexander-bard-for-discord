@@ -86,11 +86,14 @@ export default new SubCommand<BardApp>({
                 let items = app.shopManager.shops.get(shopID).shop.items
 
 
-                const guild = app.skeleton.client.guilds.cache.get(interaction.guildId)
-                const member = guild.members.cache.get(interaction.member.user.id);
-                const voiceChannel = member.voice.channel;
-                if (voiceChannel) {
-                    app.voice.playInGuild("./media/" + app.shopManager.shops.get(shopID).shop.musicName, i.guildId, voiceChannel)
+                let subscription = app.voice.getSubscription(interaction.guildId)
+                if (!subscription) {
+                    const guild = app.skeleton.client.guilds.cache.get(interaction.guildId)
+                    const member = guild.members.cache.get(interaction.member.user.id);
+                    const voiceChannel = member.voice.channel;
+                    if (voiceChannel) {
+                        app.voice.playInGuild("./media/" + app.shopManager.shops.get(shopID).shop.musicName, i.guildId, voiceChannel)
+                    }
                 }
 
                 const infoRow = new MessageActionRow()
