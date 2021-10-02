@@ -1,5 +1,5 @@
 import { SubCommand } from "base-app-for-discordjs/src/Jobs";
-import { BardApp } from "../../main";
+import { BardApp } from "../../../main";
 
 export default new SubCommand<BardApp>({
     masterCommand: "bardbuck",

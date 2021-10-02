@@ -1,5 +1,5 @@
 import { UserCommand } from "base-app-for-discordjs/src/Jobs";
-import { BardApp } from "../../main";
+import { BardApp } from "../../../main";
 
 export default new UserCommand<BardApp>({
     name: "Ge 100 Bardbucks",
