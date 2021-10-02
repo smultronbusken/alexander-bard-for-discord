@@ -11,6 +11,7 @@ export interface ShopInput {
     image: string,
     description: string,
     items: string[],
+    musicName: string
 }
 
 @JobRegister.JobClass
@@ -38,6 +39,8 @@ export class ShopManager {
               `\n Behöver du mer <:bardbuck:833349173981478942> så bör du be till med genom att skriva *pray* eller ansöka till Bards College genom att skriva *börja bardscollege*.`
           );
         return exampleEmbed
+
+        
       
       
         /*Object.values(shop.shop.items).forEach((itemID) => {

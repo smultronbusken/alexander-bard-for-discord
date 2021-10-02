@@ -15,4 +15,5 @@ export default new Shop({
   description:
     "Welcome traveller. Im Bard's scottish twin brother. Spend your <:bardbuck:833349173981478942> here and don't be a wee clipe!",
   items: ["kilt", "scripture", "läskeblask"],
+  musicName: "scottland.mp3"
 })

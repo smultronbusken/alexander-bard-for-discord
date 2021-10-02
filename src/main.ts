@@ -3,6 +3,7 @@ import { Intents } from "discord.js";
 import { Item, ItemManager } from "./controllers/inventory/item";
 import Ledger from "./controllers/ledger";
 import { Shop, ShopManager } from "./controllers/shop/shop";
+import { Voice } from "./voice/voice";
 
 
 
@@ -11,6 +12,7 @@ export class BardApp {
   public ledger: Ledger
   public shopManager: ShopManager
   public itemManager: ItemManager
+  public voice: Voice
 
 }
 
@@ -47,6 +49,7 @@ import("../config.json").then(config => {
         bardApp.ledger = new Ledger(skeleton.getStorage("ledger"))
         bardApp.shopManager = shopManager
         bardApp.itemManager = itemManager
+        bardApp.voice = new Voice(skeleton.client)
         
       })
 })

@@ -15,4 +15,5 @@ export default new Shop({
   description:
     "Here you can spend all your well earned bardbucks <:bardbuck:833349173981478942>. Write *bardbucks* to see how much you can spend!",
   items: ["chair", "scripture", "kyrktant", "holyhair", "sand", "läskeblask"],
+  musicName: "classic.mp3"
 })
