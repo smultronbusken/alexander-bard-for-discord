@@ -1,6 +1,7 @@
 import Skeleton from "base-app-for-discordjs/src/Skeleton"
 import { Intents } from "discord.js";
-import { Item, ItemManager } from "./controllers/inventory/item";
+import { Inventory } from "./controllers/inventory/inventory";
+import { Item, ItemManager } from "./controllers/items/item";
 import Ledger from "./controllers/ledger";
 import { Shop, ShopManager } from "./controllers/shop/shop";
 import { Voice } from "./voice/voice";
@@ -10,6 +11,7 @@ import { Voice } from "./voice/voice";
 export class BardApp {
   public skeleton: Skeleton<BardApp>
   public ledger: Ledger
+  public inventory: Inventory
   public shopManager: ShopManager
   public itemManager: ItemManager
   public voice: Voice
@@ -42,14 +44,14 @@ import("../config.json").then(config => {
         let itemManager = new ItemManager()
         skeleton.jobRegister.onRegister(Item, item => itemManager.items.set(item.item.id, item))
 
-        skeleton.jobRegister.loadAndRegister(true, false).then(_ => {
-          console.log(itemManager.items)
-        })
+        skeleton.jobRegister.loadAndRegister(true, false)
 
         bardApp.ledger = new Ledger(skeleton.getStorage("ledger"))
+        bardApp.inventory = new Inventory(skeleton.getStorage("inventory"))
         bardApp.shopManager = shopManager
         bardApp.itemManager = itemManager
         bardApp.voice = new Voice(skeleton.client)
         
+
       })
 })

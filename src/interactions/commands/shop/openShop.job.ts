@@ -1,6 +1,7 @@
 import { SubCommand } from "base-app-for-discordjs/src/Jobs";
 import { ApplicationCommandOptionType } from "discord-api-types";
 import { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, SelectMenuInteraction } from "discord.js";
+import { TRANSACTION_RESPONSE } from "../../../controllers/shop/shop";
 import { BardApp } from "../../../main";
 
 export default new SubCommand<BardApp>({
@@ -39,12 +40,13 @@ export default new SubCommand<BardApp>({
                 .setTitle(
                   item.name + `\n**${item.item.price}** <:bardbuck:833349173981478942>`
                 )
+                .setDescription(item.item.info)
                 .setImage(item.item.image);
                 
                 const row = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
-                        .setCustomId('buyItem')
+                        .setCustomId('buyItem-'+item.item.id)
                         .setLabel('Köp')
                         .setStyle('SUCCESS'),
                 );
@@ -53,8 +55,30 @@ export default new SubCommand<BardApp>({
                 i.reply({components: [row], embeds: [embedded]})
             }
 
-            if (i.customId === "buyItems") {
+            if (i.customId.startsWith("buyItem-")) {
+                let item = i.customId.substring("buyItem-".length)
+                let response = app.shopManager.buyItem(item, i.user.id, app.itemManager, app.ledger, app.inventory)
 
+                
+
+                switch(response) {
+                    case TRANSACTION_RESPONSE.NOT_ENOUGH_FUNDS:
+
+                        let funds = app.ledger.funds(i.user.id)
+                        let itemObj = app.itemManager.items.get(item)
+                        i.reply(`Du har bara **${funds}** Bardbucks medan ${itemObj.item.name} 
+                        kostar **${itemObj.item.price}** <:bardbuck:833349173981478942>... fattig lapp.`)
+                        break
+                    case TRANSACTION_RESPONSE.NO_SUCH_ITEM:
+                        i.reply("är du dum? det föremålet finns inte.")
+                        break
+                    case TRANSACTION_RESPONSE.OTHER:
+                        i.reply("Det gick inte att köpa, jag tror att du redan har det föremålet?")
+                        break
+                    case TRANSACTION_RESPONSE.SUCCESS:
+                        i.reply("Bra deal grabben.")
+                        break
+                }
             }
 
             if (i.customId === 'shop') {
@@ -72,31 +96,21 @@ export default new SubCommand<BardApp>({
                 const infoRow = new MessageActionRow()
                 let infoMenu = new MessageSelectMenu()
                 .setCustomId('infoItems')
-                .setPlaceholder('Mer info om vara')
+                .setPlaceholder('Köp/info om vara')
                 
-                
-                const buyRow = new MessageActionRow()
-                let buyMenu = new MessageSelectMenu()
-                .setCustomId('buyItems')
-                .setPlaceholder('Köp vara')
-                
+    
                 items.forEach(itemID => {
                     let item = app.itemManager.items.get(itemID)
                     infoMenu.addOptions({
                         value: item.item.id,
                         label: item.item.name,
                     })
-                    buyMenu.addOptions({
-                        value: item.item.id,
-                        label: item.item.name,
-                    })
                 })
                 
                 infoRow.addComponents(infoMenu)
-                buyRow.addComponents(buyMenu)
 
                 let embeddedShopMessage = app.shopManager.printShopBig(shopID)
-                i.reply({ embeds: [embeddedShopMessage],  components: [infoRow, buyRow] })
+                i.reply({ embeds: [embeddedShopMessage],  components: [infoRow] })
             }
         });
 
